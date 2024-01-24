@@ -118,7 +118,6 @@ public class AuthForm extends JFrame {
         UsuarioDAOImpl dao = new UsuarioDAOImpl();
         // Verifica se o usuário existe
         Usuarios u = dao.selectEmailUser(user);
-        System.out.println("Usuario "+u);
         if (u == null){
             JOptionPane.showMessageDialog(this, "Usuário não existe\nou não está cadastrado", "Warning", JOptionPane.WARNING_MESSAGE);
         }else{

@@ -6,15 +6,22 @@
         <class>org.esca.app.auth.dominio.Usuarios</class>
 
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/esca?useSSL=false"/>
-            <property name="javax.persistence.jdbc.user" value="elias"/>
-            <property name="javax.persistence.jdbc.password" value="Elias@2023"/>
-            <property name="hibernate.jdbc.time_zone" value="UTC" />
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
-            <property name="javax.persistence.schema-generation.database.action" value="none"/>
+<!--            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/esca?useSSL=false"/>-->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/finance"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.password" value="bot901"/>
+<!--            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
 
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.jdbc.time_zone" value="UTC" />
+<!--            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>-->
+
+<!--            <property name="javax.persistence.schema-generation.database.action" value="none"/>-->
+<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- create / create-drop / update -->
+
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
         </properties>
