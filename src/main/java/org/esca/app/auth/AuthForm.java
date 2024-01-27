@@ -2,10 +2,12 @@ package org.esca.app.auth;
 
 
 import com.formdev.flatlaf.FlatClientProperties;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.esca.app.FormMenu;
 import org.esca.app.auth.dao.impl.UsuarioDAOImpl;
 import org.esca.app.auth.dominio.Usuarios;
+import org.esca.app.cadastros.estudantes.config.DateValidator;
+import org.esca.app.cadastros.estudantes.config.DateValidatorUsingDateFormat;
+import org.esca.app.cadastros.estudantes.config.EmailValidatorFormat;
 import org.esca.app.util.Util;
 
 import javax.swing.*;
@@ -15,7 +17,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class AuthForm extends JFrame {
-
+    private EmailValidatorFormat validator;
     private static AuthForm login;
     private Formulario formulario;
 
@@ -75,7 +77,8 @@ public class AuthForm extends JFrame {
             msgMail.setText(null);
             formulario.txtEmail.putClientProperty("JComponent.outline", Color.BLUE);
         }
-        if (!EmailValidator.getInstance().isValid(email)){
+        validator = new EmailValidatorFormat();
+        if (!validator.isValid(email)){
             msgMail.setText("Email inválido.");
             formulario.txtEmail.putClientProperty("JComponent.outline", "warning");
             formulario.txtEmail.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);

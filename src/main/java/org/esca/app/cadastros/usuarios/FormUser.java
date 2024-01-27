@@ -17,11 +17,13 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.TableRowSorter;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.esca.app.auth.dao.impl.RoleDAOImpl;
 import org.esca.app.auth.dao.impl.UsuarioDAOImpl;
 import org.esca.app.auth.dominio.Roles;
 import org.esca.app.auth.dominio.Usuarios;
+import org.esca.app.cadastros.estudantes.config.DateValidator;
+import org.esca.app.cadastros.estudantes.config.DateValidatorUsingDateFormat;
+import org.esca.app.cadastros.estudantes.config.EmailValidatorFormat;
 import org.esca.app.cadastros.usuarios.config.UserCellRenderer;
 import org.esca.app.cadastros.usuarios.config.UserTableModel;
 import org.esca.app.util.ComboBoxList;
@@ -36,8 +38,8 @@ public class FormUser extends javax.swing.JDialog {
     private final RoleDAOImpl daoRole = new RoleDAOImpl();
     private UserTableModel modelo;
     Font fontError = new Font("Roboto Black", Font.ITALIC, 10);
-
-    public FormUser(java.awt.Frame parent, boolean modal) {
+    private EmailValidatorFormat validator;
+    public FormUser(javax.swing.JFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
@@ -130,6 +132,7 @@ public class FormUser extends javax.swing.JDialog {
         setUndecorated(true);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
@@ -147,6 +150,7 @@ public class FormUser extends javax.swing.JDialog {
             }
         ));
         tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelaMouseClicked(evt);
             }
@@ -157,6 +161,7 @@ public class FormUser extends javax.swing.JDialog {
 
         txtNome.setName("nomeUsuario"); // NOI18N
         txtNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNomeKeyReleased(evt);
             }
@@ -164,6 +169,7 @@ public class FormUser extends javax.swing.JDialog {
 
         txtEmail.setName("emailUsuario"); // NOI18N
         txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtEmailKeyReleased(evt);
             }
@@ -171,6 +177,7 @@ public class FormUser extends javax.swing.JDialog {
 
         txtCargo.setName("cargoUsuario"); // NOI18N
         txtCargo.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCargoKeyReleased(evt);
             }
@@ -178,6 +185,7 @@ public class FormUser extends javax.swing.JDialog {
 
         txtPhone.setName("telefoneUsuario"); // NOI18N
         txtPhone.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPhoneKeyTyped(evt);
             }
@@ -185,15 +193,12 @@ public class FormUser extends javax.swing.JDialog {
 
         txtPassword.setName("passwordUsuario"); // NOI18N
         txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtPasswordFocusGained(evt);
             }
         });
-        txtPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPasswordActionPerformed(evt);
-            }
-        });
+        txtPassword.addActionListener(this::txtPasswordActionPerformed);
 
         lblMsgNome.setFont(new java.awt.Font("Roboto", 2, 10)); // NOI18N
         lblMsgNome.setForeground(new java.awt.Color(255, 51, 102));
@@ -391,7 +396,8 @@ public class FormUser extends javax.swing.JDialog {
             lblMsgNome.setText(null);
             txtNome.putClientProperty("JComponent.outline", java.awt.Color.GREEN);
         }
-        if (!EmailValidator.getInstance().isValid(email)) {
+        validator = new EmailValidatorFormat();
+        if (!validator.isValid(email)) {
             lblMsgEmail.setText("Email inválido");
             txtEmail.putClientProperty("JComponent.outline", "warning");
             txtEmail.putClientProperty(FlatClientProperties.TEXT_FIELD_SHOW_CLEAR_BUTTON, true);
@@ -401,7 +407,6 @@ public class FormUser extends javax.swing.JDialog {
             lblMsgEmail.setText(null);
             txtEmail.putClientProperty("JComponent.outline", java.awt.Color.GREEN);
         }
-
         if (cargo.isEmpty()) {
             lblMsgCargo.setText("Cargo é obrigatório");
             txtCargo.putClientProperty("JComponent.outline", "warning");
@@ -438,7 +443,6 @@ public class FormUser extends javax.swing.JDialog {
             lblMsgPwd.setText(null);
             txtPassword.putClientProperty("JComponent.outline", java.awt.Color.GREEN);
         }
-
         LocalDate created_at = LocalDate.now();
 
         // Envia os dados para a classe de serviço
@@ -490,22 +494,18 @@ public class FormUser extends javax.swing.JDialog {
     private void removerActionPerformed(ActionEvent evt) {
         if (this.user.getId() == null) {
             JOptionPane.showMessageDialog(null, "Por favor, selecione um registro na tabela primeiro.");
-
         } else {
             if (JOptionPane.showConfirmDialog(null, "Confirma a exclusão?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                 daoUser.deleteUser(this.user);
-
                 this.habilitaCampos(true);
                 this.limpaCampos();
                 this.user.setId(null);
             } else {
-
                 this.habilitaCampos(true);
                 this.limpaCampos();
                 this.user.setId(null);
             }
         }
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -540,7 +540,6 @@ public class FormUser extends javax.swing.JDialog {
         jPanelButton1.btnNew.setEnabled(valor);
         jPanelButton1.btnSalvar.setEnabled(!valor);
         jPanelButton1.btnCancelar.setEnabled(!valor);
-
     }
 
     private void habilitaCampos(boolean valor) {

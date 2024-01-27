@@ -1,15 +1,15 @@
 package org.esca.app.cadastros.dao;
 
 
-import org.esca.app.cadastros.dominio.Student;
+import org.esca.app.cadastros.dominio.Students;
 
 import java.util.List;
 
 public interface StudentDAO {
-    public Student getById(final Long id);
-    public void addStudent(Student student);
-    public void updateStudent(Student student);
-    public void deleteStudent(Student student);
-    public List<Student> selectAddress();
-    public List<Student> selectByName(String value);
+    public Students getById(final Long id);
+    public void addStudent(Students student);
+    public void updateStudent(Students student);
+    public void deleteStudent(Students student);
+    public List<Students> selectAddress();
+    public List<Students> selectByName(String value);
 }

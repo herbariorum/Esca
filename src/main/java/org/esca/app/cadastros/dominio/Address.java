@@ -1,9 +1,6 @@
 package org.esca.app.cadastros.dominio;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -20,4 +17,6 @@ public class Address {
     private String cidade;
     private String estado;
     private String cep;
+    @Column(length = 11)
+    private String telefone;
 }

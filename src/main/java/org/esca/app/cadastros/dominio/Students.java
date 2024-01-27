@@ -7,12 +7,12 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-public class Student {
+public class Students {
 
 
-    private Long id;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nome;
     @Column(name = "cpf", unique = true)
     private String cpf;

@@ -3,8 +3,11 @@ package org.esca.app.util;
 
 import org.esca.app.auth.dominio.Usuarios;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 public class Util {
@@ -34,10 +37,18 @@ public class Util {
              ld = LocalDate.parse(value, formatter);
         } catch (Exception e) {
             // Trate a exceção (por exemplo, imprima uma mensagem de erro ou faça algo apropriado para sua aplicação)
-
         }
         return ld;
     }
-    
-    
+
+    public String formatDate(LocalDate valor){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return dateTimeFormatter.format(valor);
+    }
+    public LocalDate formatDateToUs(String valor){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate localDate = LocalDate.parse(valor, dateTimeFormatter);
+        return localDate;
+    }
+
 }

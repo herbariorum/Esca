@@ -4,7 +4,10 @@
 
         <class>org.esca.app.auth.dominio.Roles</class>
         <class>org.esca.app.auth.dominio.Usuarios</class>
-
+        <class>org.esca.app.cadastros.dominio.Address</class>
+        <class>org.esca.app.cadastros.dominio.Students</class>
+        <class>org.esca.app.cadastros.dominio.Municipio</class>
+        <class>org.esca.app.cadastros.dominio.Estado</class>
         <properties>
 <!--            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/esca?useSSL=false"/>-->
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/finance"/>

@@ -2,9 +2,8 @@ package org.esca.app.cadastros.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import org.esca.app.auth.dominio.Usuarios;
 import org.esca.app.cadastros.dao.StudentDAO;
-import org.esca.app.cadastros.dominio.Student;
+import org.esca.app.cadastros.dominio.Students;
 import org.esca.app.config.HibernateConfig;
 
 import java.util.List;
@@ -17,26 +16,26 @@ public class StudentDAOImpl implements StudentDAO {
         this.em = hc.getEntityManager();
     }
     @Override
-    public Student getById(Long id) {
-        return em.find(Student.class, id);
+    public Students getById(Long id) {
+        return em.find(Students.class, id);
     }
 
     @Override
-    public List<Student> selectAddress() {
-        return em.createQuery("FROM "+Student.class.getName()).getResultList();
+    public List<Students> selectAddress() {
+        return em.createQuery("FROM "+ Students.class.getName()).getResultList();
     }
 
     @Override
-    public List<Student> selectByName(String value) {
-        List<Student> std = null;
-        TypedQuery<Student> query = em.createQuery("SELECT s FROM Student s WHERE s.nome LIKE :nome", Student.class);
+    public List<Students> selectByName(String value) {
+        List<Students> std = null;
+        TypedQuery<Students> query = em.createQuery("SELECT s FROM Students s WHERE s.nome LIKE :nome", Students.class);
         query.setParameter("nome", "%"+value+"%");
         std = query.getResultList();
         return std;
     }
 
     @Override
-    public void addStudent(Student student) {
+    public void addStudent(Students student) {
         try {
             em.getTransaction().begin();
             em.persist(student);
@@ -49,7 +48,7 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public void updateStudent(Student student) {
+    public void updateStudent(Students student) {
         try {
             em.getTransaction().begin();
             em.persist(student);
@@ -62,7 +61,7 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public void deleteStudent(Student student) {
+    public void deleteStudent(Students student) {
         try {
             em.getTransaction().begin();
             em.persist(student);

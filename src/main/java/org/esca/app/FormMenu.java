@@ -3,6 +3,8 @@ package org.esca.app;
 import org.esca.app.auth.AuthForm;
 import org.esca.app.auth.dominio.Usuarios;
 
+
+import org.esca.app.cadastros.estudantes.FormStudent;
 import org.esca.app.util.StatusBar;
 
 import javax.swing.*;
@@ -10,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import org.esca.app.cadastros.estudantes.StudentDialog;
 import org.esca.app.cadastros.usuarios.FormUser;
 
 public class FormMenu extends JFrame {
@@ -20,7 +23,7 @@ public class FormMenu extends JFrame {
 
     public FormMenu(Usuarios user) {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLayout(new BorderLayout());
         this.user = user;
 
@@ -57,8 +60,8 @@ public class FormMenu extends JFrame {
          */
         JMenu cadastroMenu = new JMenu("Cadastros");
         JMenuItem cadastroEstudantesAction = new JMenuItem("Manuteção de Estudantes");
-        cadastroEstudantesAction.addActionListener((ActionEvent etv)->{
-
+        cadastroEstudantesAction.addActionListener((ActionEvent evt)->{
+            mnuCadastrarEstudantesActionPerformed(evt);
         });
         cadastroMenu.add(cadastroEstudantesAction);
 
@@ -82,7 +85,7 @@ public class FormMenu extends JFrame {
         // Adiciona a barra de menus
         menuBar.add(fileMenu);
         menuBar.add(configMenu);
-
+        menuBar.add(cadastroMenu);
         /**
          *  Cria a barra de Status
          *
@@ -113,13 +116,19 @@ public class FormMenu extends JFrame {
     }
 
     private void configurarMenu(){
-        
         if (this.user.getRole().getRole().equals("USERS")){
             mnuGerenciar.setVisible(false);
         }
     }
+
+    private void mnuCadastrarEstudantesActionPerformed(ActionEvent evt){
+        new FormStudent(getInstance(), true).start();
+    }
+
+
     private void sairDoApp(){
-        if (JOptionPane.showConfirmDialog(null, "Você deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+        int resposta = JOptionPane.showConfirmDialog(null, "Você deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (resposta == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }
