@@ -18,4 +18,9 @@ public class Estado {
     private String uf;
     @Column(name = "Regiao", nullable = false)
     private int região;
+
+    @Override
+    public String toString() {
+        return this.getUf();
+    }
 }

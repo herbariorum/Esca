@@ -4,12 +4,11 @@ import com.formdev.flatlaf.FlatClientProperties;
 import org.esca.app.cadastros.dao.impl.EstadoDAOImpl;
 import org.esca.app.cadastros.dao.impl.MunicipioDAOImpl;
 import org.esca.app.cadastros.dao.impl.StudentDAOImpl;
-import org.esca.app.cadastros.dominio.Address;
 import org.esca.app.cadastros.dominio.Estado;
 import org.esca.app.cadastros.dominio.Municipio;
 import org.esca.app.cadastros.dominio.Students;
-import org.esca.app.cadastros.estudantes.config.DateValidator;
-import org.esca.app.cadastros.estudantes.config.DateValidatorUsingDateFormat;
+import org.esca.app.cadastros.estudantes.config.IDateValidator;
+import org.esca.app.cadastros.estudantes.config.DateValidatorUsingIDateFormat;
 import org.esca.app.cadastros.estudantes.config.StudentCellRenderer;
 import org.esca.app.cadastros.estudantes.config.StudentTableModel;
 import org.esca.app.util.CPF;
@@ -22,9 +21,6 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.List;
 
 public class FormStudent extends javax.swing.JDialog {
@@ -68,14 +64,13 @@ public class FormStudent extends javax.swing.JDialog {
     private JLabel lblMsgNomeMae;
     private JLabel lblMsgLogradouro;
     private Students student = new Students();
-    private  Address address = new Address();
     private List<Students> students;
     private StudentDAOImpl daoStudent = new StudentDAOImpl();
     private List<Estado> estados;
     private EstadoDAOImpl daoEstado = new EstadoDAOImpl();
     private List<Municipio> municipios;
     private MunicipioDAOImpl daoMunicipio = new MunicipioDAOImpl();
-    private DateValidator validator;
+    private IDateValidator validator;
 
 
     public FormStudent(javax.swing.JFrame parent, boolean modal) {
@@ -134,7 +129,7 @@ public class FormStudent extends javax.swing.JDialog {
         cbxEstado.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                preencherComboCidade();
+//                preencherComboCidade();
             }
         });
 
@@ -202,14 +197,7 @@ public class FormStudent extends javax.swing.JDialog {
                 habilitaBotoes(true);
             }
         });
-        cancelaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                limpaCampos();
-                habilitaCampos(true);
-                habilitaBotoes(false);
-            }
-        });
+
         salvaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -285,23 +273,24 @@ public class FormStudent extends javax.swing.JDialog {
             txtDtaNascimento.setText(new Util().formatDate(this.student.getDtaNascimento()));
             cbxSexo.getModel().setSelectedItem(this.student.getSexo());
             chbStatus.setSelected(this.student.isStatus());
-            txtTelefone.setText(this.student.getAddress().getTelefone());
+            txtTelefone.setText(this.student.getTelefone());
             txtNomeMae.setText(this.student.getNomeMae());
             txtNomePai.setText(this.student.getNomePai());
             txtNacionalidade.setText(this.student.getNacionalidade());
             txtNaturalidade.setText(this.student.getNaturalidade());
             cbxNaturalidadeUf.setSelectedItem(this.student.getNaturalidade_uf());
+
             txtResponsavelAcademico.setText(this.student.getResponsavelAcademico());
             txtResponsavelFinanceiro.setText(this.student.getResponsavelFinanceiro());
 
-            txtLogradouro.setText(this.student.getAddress().getLogradouro());
-            txtNumero.setText(this.student.getAddress().getNumero());
-            txtTelefone.setText(this.student.getAddress().getTelefone());
-            txtComplemento.setText(this.student.getAddress().getComplemento());
-            txtBairro.setText(this.student.getAddress().getBairro());
-            cbxEstado.setSelectedItem(this.student.getAddress().getEstado());
-            cbxCidade.setSelectedItem(this.student.getAddress().getCidade());
-            txtCep.setText(this.student.getAddress().getCep());
+            txtLogradouro.setText(this.student.getLogradouro());
+            txtNumero.setText(this.student.getNumero());
+            txtTelefone.setText(this.student.getTelefone());
+            txtComplemento.setText(this.student.getComplemento());
+            txtBairro.setText(this.student.getBairro());
+            cbxEstado.setSelectedItem(this.student.getEstado());
+            cbxCidade.setSelectedItem(this.student.getCidade());
+            txtCep.setText(this.student.getCep());
         }
     }
 
@@ -378,7 +367,7 @@ public class FormStudent extends javax.swing.JDialog {
             txtCpf.putClientProperty("JComponent.outline", null);
         }
 
-        validator = new DateValidatorUsingDateFormat("MM/dd/yyyy");
+        validator = new DateValidatorUsingIDateFormat("MM/dd/yyyy");
         if (nascimento.isEmpty()){
             lblMsgNascimento.setText("Data é obrigatório");
             txtDtaNascimento.putClientProperty("JComponent.outline", "warning");
@@ -430,23 +419,22 @@ public class FormStudent extends javax.swing.JDialog {
         this.student.setResponsavelAcademico(txtResponsavelAcademico.getText());
         this.student.setResponsavelFinanceiro(txtResponsavelFinanceiro.getText());
         ComboBoxList naturalidade = ((ComboBoxList) cbxNaturalidadeUf.getSelectedItem());
-        this.student.setNaturalidade_uf(naturalidade.getName());
+        this.student.setNaturalidade_uf(naturalidade.getNome());
         this.student.setNaturalidade(txtNaturalidade.getText());
         if (chbStatus.isSelected()){
             this.student.setStatus(true);
         }
 
-         address.setLogradouro(txtLogradouro.getText());
-        address.setNumero(txtNumero.getText());
-        address.setComplemento(txtComplemento.getText());
-        address.setBairro(txtBairro.getText());
+        this.student.setLogradouro(txtLogradouro.getText());
+        this.student.setNumero(txtNumero.getText());
+        this.student.setComplemento(txtComplemento.getText());
+        this.student.setBairro(txtBairro.getText());
         ComboBoxList estado = ((ComboBoxList) cbxEstado.getSelectedItem());
-        address.setEstado(estado.getName());
-        address.setCidade(String.valueOf(cbxCidade.getSelectedItem()));
-        address.setTelefone(txtTelefone.getText());
-        address.setCep(txtCep.getText());
+        this.student.setEstado(estado.getNome());
+        this.student.setCidade(String.valueOf(cbxCidade.getSelectedItem()));
+        this.student.setTelefone(txtTelefone.getText());
+        this.student.setCep(txtCep.getText());
 
-        this.student.setAddress(address);
 
         System.out.println("Usuário a ser cadastrado ----> "+this.student);
     }

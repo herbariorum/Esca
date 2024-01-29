@@ -28,7 +28,7 @@ public class StudentDAOImpl implements StudentDAO {
     @Override
     public List<Students> selectByName(String value) {
         List<Students> std = null;
-        TypedQuery<Students> query = em.createQuery("SELECT s FROM Students s WHERE s.nome LIKE :nome", Students.class);
+        TypedQuery<Students> query = em.createQuery("SELECT s FROM Students s WHERE lower(s.nome) LIKE lower(:nome)", Students.class);
         query.setParameter("nome", "%"+value+"%");
         std = query.getResultList();
         return std;
@@ -54,6 +54,7 @@ public class StudentDAOImpl implements StudentDAO {
             em.persist(student);
             em.getTransaction().commit();
         }catch (Exception e){
+            System.out.println("Error "+e);
             if (em.getTransaction().isActive()){
                 em.getTransaction().rollback();
             }
@@ -72,6 +73,5 @@ public class StudentDAOImpl implements StudentDAO {
             }
         }
     }
-
 
 }

@@ -21,9 +21,7 @@ import org.esca.app.auth.dao.impl.RoleDAOImpl;
 import org.esca.app.auth.dao.impl.UsuarioDAOImpl;
 import org.esca.app.auth.dominio.Roles;
 import org.esca.app.auth.dominio.Usuarios;
-import org.esca.app.cadastros.estudantes.config.DateValidator;
-import org.esca.app.cadastros.estudantes.config.DateValidatorUsingDateFormat;
-import org.esca.app.cadastros.estudantes.config.EmailValidatorFormat;
+import org.esca.app.cadastros.estudantes.config.IEmailValidatorFormat;
 import org.esca.app.cadastros.usuarios.config.UserCellRenderer;
 import org.esca.app.cadastros.usuarios.config.UserTableModel;
 import org.esca.app.util.ComboBoxList;
@@ -38,7 +36,7 @@ public class FormUser extends javax.swing.JDialog {
     private final RoleDAOImpl daoRole = new RoleDAOImpl();
     private UserTableModel modelo;
     Font fontError = new Font("Roboto Black", Font.ITALIC, 10);
-    private EmailValidatorFormat validator;
+    private IEmailValidatorFormat validator;
     public FormUser(javax.swing.JFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -396,7 +394,7 @@ public class FormUser extends javax.swing.JDialog {
             lblMsgNome.setText(null);
             txtNome.putClientProperty("JComponent.outline", java.awt.Color.GREEN);
         }
-        validator = new EmailValidatorFormat();
+        validator = new IEmailValidatorFormat();
         if (!validator.isValid(email)) {
             lblMsgEmail.setText("Email inválido");
             txtEmail.putClientProperty("JComponent.outline", "warning");
@@ -454,7 +452,7 @@ public class FormUser extends javax.swing.JDialog {
 
         Roles role = new Roles();
         role.setId(roleId.getId());
-        role.setRole(roleId.getName());
+        role.setRole(roleId.getNome());
 
         this.user.setRole(role);
 
@@ -503,7 +501,7 @@ public class FormUser extends javax.swing.JDialog {
             } else {
                 this.habilitaCampos(true);
                 this.limpaCampos();
-                this.user.setId(null);
+//                this.user.setId(null);
             }
         }
     }
@@ -601,8 +599,8 @@ public class FormUser extends javax.swing.JDialog {
             } else if (c instanceof javax.swing.JFormattedTextField) {
                 ((javax.swing.JFormattedTextField) c).putClientProperty("JComponent.outline", null);
             } else if (c instanceof javax.swing.JPasswordField) {
-                ((javax.swing.JPasswordField) c).putClientProperty("JComponent.outline", null);
             }
+                ((javax.swing.JPasswordField) c).putClientProperty("JComponent.outline", null);
         }
     }
 

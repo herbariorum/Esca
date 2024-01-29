@@ -14,7 +14,6 @@ public class StudentTableModel extends ViewAbstractTableModel<Students> {
         super(rows);
         columns = new String[]{
                 "ID",
-                "ADDRESS ID",
                 "NOME",
                 "CPF",
                 "MÃE",
@@ -31,16 +30,14 @@ public class StudentTableModel extends ViewAbstractTableModel<Students> {
             case 0:
                 return std.getId();
             case 1:
-                return std.getAddress().getId();
-            case 2:
                 return std.getNome();
-            case 3:
+            case 2:
                 return std.getCpf();
-            case 4:
+            case 3:
                 return std.getNomeMae();
-            case 5:
+            case 4:
                 return std.getSexo();
-            case 6:
+            case 5:
                 return new Util().formatDate(std.getDtaNascimento());
             default:
                 return null;

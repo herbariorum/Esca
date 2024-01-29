@@ -18,4 +18,8 @@ public class Municipio {
     @Column(name = "Uf", nullable = false)
     private String uf;
 
+    @Override
+    public String toString() {
+        return getNome();
+    }
 }

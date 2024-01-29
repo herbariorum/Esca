@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public class ComboBoxList {
     
     private Long id;
-    private String name;
+    private String nome;
     
-    public ComboBoxList(Long id, String name){
+    public ComboBoxList(Long id, String nome){
         this.id = id;
-        this.name = name;
+        this.nome = nome;
     }
     
     public void setSelectedId(ArrayList<ComboBoxList> comboBoxList, String id, javax.swing.JComboBox cb){
@@ -27,7 +27,7 @@ public class ComboBoxList {
 
     @Override
     public String toString() {
-        return this.name;
+        return this.nome;
     }
     
     

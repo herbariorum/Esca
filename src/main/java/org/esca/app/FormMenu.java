@@ -4,6 +4,7 @@ import org.esca.app.auth.AuthForm;
 import org.esca.app.auth.dominio.Usuarios;
 
 
+import org.esca.app.cadastros.estudantes.EstudanteDlg;
 import org.esca.app.cadastros.estudantes.FormStudent;
 import org.esca.app.util.StatusBar;
 
@@ -122,8 +123,10 @@ public class FormMenu extends JFrame {
     }
 
     private void mnuCadastrarEstudantesActionPerformed(ActionEvent evt){
-        new FormStudent(getInstance(), true).start();
+//        new FormStudent(getInstance(), true).start();
+        new EstudanteDlg(getInstance(), true, "Manutenção de Estudantes").start();
     }
+
 
 
     private void sairDoApp(){

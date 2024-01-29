@@ -32,7 +32,13 @@ public class Students {
     private String sexo;
     private boolean status;
 
-    @ManyToOne
-    @JoinColumn(name="address_id")
-    private Address address;
+    private String logradouro;
+    private String numero;
+    private String complemento;
+    private String bairro;
+    private String cidade;
+    private String estado;
+    private String cep;
+    @Column(length = 11)
+    private String telefone;
 }

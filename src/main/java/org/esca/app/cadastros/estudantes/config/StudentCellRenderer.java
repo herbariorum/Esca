@@ -30,16 +30,12 @@ public class StudentCellRenderer extends DefaultTableCellRenderer {
         hide.setMinWidth(0);
         hide.setMaxWidth(0);
         hide.setPreferredWidth(0);
-        TableColumn hide2 = table.getColumnModel().getColumn(1);// address_id
-        hide2.setMinWidth(0);
-        hide2.setMaxWidth(0);
-        hide2.setPreferredWidth(0);
 
-        table.getColumnModel().getColumn(2).setMaxWidth(700); // Nome
-        table.getColumnModel().getColumn(3).setMaxWidth(250); // CPF
-        table.getColumnModel().getColumn(4).setMaxWidth(800); // Mae
-        table.getColumnModel().getColumn(5).setMaxWidth(150); // Sexo
-        table.getColumnModel().getColumn(6).setMaxWidth(200); // DAta
+        table.getColumnModel().getColumn(1).setMaxWidth(700); // Nome
+        table.getColumnModel().getColumn(2).setMaxWidth(250); // CPF
+        table.getColumnModel().getColumn(3).setMaxWidth(800); // Mae
+        table.getColumnModel().getColumn(4).setMaxWidth(150); // Sexo
+        table.getColumnModel().getColumn(5).setMaxWidth(200); // DAta
 
 
 

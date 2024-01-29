@@ -4,6 +4,8 @@
  */
 package org.esca.app.cadastros.fragmentos;
 
+import java.awt.*;
+
 /**
  *
  * @author elias
@@ -31,6 +33,7 @@ public class JPanelButton extends javax.swing.JPanel {
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
+//        setBackground(Color.GREEN);
         setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         btnNew.setText("Novo");

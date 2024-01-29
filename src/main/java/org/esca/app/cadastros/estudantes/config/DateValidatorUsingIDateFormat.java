@@ -4,10 +4,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class DateValidatorUsingDateFormat implements DateValidator{
+public class DateValidatorUsingIDateFormat implements IDateValidator {
     private String dateFormat;
 
-    public DateValidatorUsingDateFormat(String dateFormat){
+    public DateValidatorUsingIDateFormat(String dateFormat){
         this.dateFormat = dateFormat;
     }
 
