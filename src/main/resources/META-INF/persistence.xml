@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="esca_persistence">
+
+        <class>org.esca.app.auth.dominio.Roles</class>
+        <class>org.esca.app.auth.dominio.Usuarios</class>
+        <class>org.esca.app.cadastros.dominio.Address</class>
+        <class>org.esca.app.cadastros.dominio.Students</class>
+        <class>org.esca.app.cadastros.dominio.Municipio</class>
+        <class>org.esca.app.cadastros.dominio.Estado</class>
+        <properties>
+<!--            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/esca?useSSL=false"/>-->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/finance"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.password" value="bot901"/>
+<!--            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+
+            <property name="hibernate.jdbc.time_zone" value="UTC" />
+<!--            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>-->
+
+<!--            <property name="javax.persistence.schema-generation.database.action" value="none"/>-->
+<!--            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- create / create-drop / update -->
+
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
