@@ -2,6 +2,7 @@ package org.esca.app.cadastros.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.esca.app.auth.dominio.Usuarios;
 import org.esca.app.cadastros.dao.StudentDAO;
 import org.esca.app.cadastros.dominio.Students;
 import org.esca.app.config.HibernateConfig;
@@ -51,7 +52,7 @@ public class StudentDAOImpl implements StudentDAO {
     public void updateStudent(Students student) {
         try {
             em.getTransaction().begin();
-            em.persist(student);
+            em.merge(student);
             em.getTransaction().commit();
         }catch (Exception e){
             System.out.println("Error "+e);
@@ -65,7 +66,8 @@ public class StudentDAOImpl implements StudentDAO {
     public void deleteStudent(Students student) {
         try {
             em.getTransaction().begin();
-            em.persist(student);
+            student = em.find(Students.class, student.getId());
+            em.remove(student);
             em.getTransaction().commit();
         }catch (Exception e){
             if (em.getTransaction().isActive()){

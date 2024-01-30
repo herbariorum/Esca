@@ -33,7 +33,7 @@ public class JPanelButton extends javax.swing.JPanel {
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
-//        setBackground(Color.GREEN);
+
         setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         btnNew.setText("Novo");
@@ -75,5 +75,6 @@ public class JPanelButton extends javax.swing.JPanel {
     public javax.swing.JButton btnNew;
     public javax.swing.JButton btnRemover;
     public javax.swing.JButton btnSalvar;
+
     // End of variables declaration//GEN-END:variables
 }

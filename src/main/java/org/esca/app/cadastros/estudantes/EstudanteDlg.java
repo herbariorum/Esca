@@ -22,10 +22,9 @@ import java.util.List;
 
 public class EstudanteDlg extends FormPadrão {
 
-    private List<Students> students;
-    private Students student = new Students();
-    private StudentDAOImpl studentDAO = new StudentDAOImpl();
+     private StudentDAOImpl studentDAO = new StudentDAOImpl();
     private EstadoDAOImpl daoEstado = new EstadoDAOImpl();
+    private Long idRow;
     private List<Municipio> municipios;
     private MunicipioDAOImpl daoMunicipio = new MunicipioDAOImpl();
     private IDateValidator validator;
@@ -66,6 +65,9 @@ public class EstudanteDlg extends FormPadrão {
                 setarCombos();
                 preencherComboCidadeNatural();
                 preencherComboCidadeLogradouro();
+                if (idRow != null){
+                    idRow = null;
+                }
             }
         });
         panelButton.btnCancelar.addActionListener(new ActionListener() {
@@ -77,7 +79,10 @@ public class EstudanteDlg extends FormPadrão {
                 setarCombos();
                 preencherComboCidadeNatural();
                 preencherComboCidadeLogradouro();
-
+                panelTable.tabela.clearSelection();
+                if (idRow != null){
+                    idRow = null;
+                }
             }
         });
         panelButton.btnSalvar.addActionListener(new ActionListener() {
@@ -165,7 +170,6 @@ public class EstudanteDlg extends FormPadrão {
         panelForm.txtBairro.setText(null);
         panelForm.txtCep.setText(null);
     }
-
     public void setarCombos(){
         panelForm.cbxEstadoNaturalidade.getModel().setSelectedItem("TO");
         panelForm.cbxEsdado.getModel().setSelectedItem("TO");
@@ -195,7 +199,6 @@ public class EstudanteDlg extends FormPadrão {
         panelForm.cbxEsdado.setEnabled(valor);
         panelForm.cbxCidade.setEnabled(valor);
     }
-
     @Override
     public void habilitarBotoes(boolean valor) {
         panelButton.btnNew.setEnabled(valor);
@@ -207,36 +210,39 @@ public class EstudanteDlg extends FormPadrão {
         int row = panelTable.tabela.getSelectedRow();
         if (row != -1) {
             Long idStudent = Long.valueOf(panelTable.tabela.getValueAt(row, 0).toString());
-            this.student = studentDAO.getById(idStudent);
+            Students student = new Students();
+            student = studentDAO.getById(idStudent);
 
-            panelForm.txtNome.setText(this.student.getNome());
-            panelForm.txtCpf.setText(this.student.getCpf());
-            panelForm.txtDtaNascimento.setText(new Util().formatDate(this.student.getDtaNascimento()));
-            panelForm.cbxSexo.getModel().setSelectedItem(this.student.getSexo());
-            panelForm.ckbStatus.setSelected(this.student.isStatus());
-            panelForm.txtNomeMae.setText(this.student.getNomeMae());
-            panelForm.txtNomePai.setText(this.student.getNomePai());
-            panelForm.txtNacionalidade.setText(this.student.getNacionalidade());
-            panelForm.cbxEstadoNaturalidade.getModel().setSelectedItem(this.student.getNaturalidade_uf());
-            panelForm.cbxNaturalidade.getModel().setSelectedItem(this.student.getNaturalidade());
+            this.idRow = student.getId();
+            panelForm.txtNome.setText(student.getNome());
+            panelForm.txtCpf.setText(student.getCpf());
+            panelForm.txtDtaNascimento.setText(new Util().formatDate(student.getDtaNascimento()));
+            panelForm.cbxSexo.getModel().setSelectedItem(student.getSexo());
+            panelForm.ckbStatus.setSelected(student.isStatus());
+            panelForm.txtNomeMae.setText(student.getNomeMae());
+            panelForm.txtNomePai.setText(student.getNomePai());
+            panelForm.txtNacionalidade.setText(student.getNacionalidade());
+            panelForm.cbxEstadoNaturalidade.getModel().setSelectedItem(student.getNaturalidade_uf());
+            panelForm.cbxNaturalidade.getModel().setSelectedItem(student.getNaturalidade());
 
-            panelForm.txtRespAcademico.setText(this.student.getResponsavelAcademico());
-            panelForm.txtRespFinanceiro.setText(this.student.getResponsavelFinanceiro());
+            panelForm.txtRespAcademico.setText(student.getResponsavelAcademico());
+            panelForm.txtRespFinanceiro.setText(student.getResponsavelFinanceiro());
 
-            panelForm.txtLogradouro.setText(this.student.getLogradouro());
-            panelForm.txtNumero.setText(this.student.getNumero());
-            panelForm.txtTelefone.setText(this.student.getTelefone());
-            panelForm.txtComplemento.setText(this.student.getComplemento());
-            panelForm.txtBairro.setText(this.student.getBairro());
-            panelForm.cbxEsdado.getModel().setSelectedItem(this.student.getEstado());
-            panelForm.cbxCidade.getModel().setSelectedItem(this.student.getCidade());
-            panelForm.txtCep.setText(this.student.getCep());
+            panelForm.txtLogradouro.setText(student.getLogradouro());
+            panelForm.txtNumero.setText(student.getNumero());
+            panelForm.txtTelefone.setText(student.getTelefone());
+            panelForm.txtComplemento.setText(student.getComplemento());
+            panelForm.txtBairro.setText(student.getBairro());
+            panelForm.cbxEsdado.getModel().setSelectedItem(student.getEstado());
+            panelForm.cbxCidade.getModel().setSelectedItem(student.getCidade());
+            panelForm.txtCep.setText(student.getCep());
         }
     }
     @Override
     public void preencherTabela(String valor) {
-        this.students = studentDAO.selectByName(valor);
-        StudentTableModel modelo = new StudentTableModel(this.students);
+        List<Students> students;
+        students = studentDAO.selectByName(valor);
+        StudentTableModel modelo = new StudentTableModel(students);
         panelTable.tabela.setModel(modelo);
         panelTable.tabela.setDefaultRenderer(Object.class, new StudentCellRenderer());
         panelTable.tabela.setRowSorter(new TableRowSorter<>(panelTable.tabela.getModel()));
@@ -266,6 +272,7 @@ public class EstudanteDlg extends FormPadrão {
     private void preencherComboCidadeLogradouro(){
         String uf = String.valueOf(panelForm.cbxEsdado.getSelectedItem());
         List<Municipio> lista = daoMunicipio.listaMunicipioPorUf(uf);
+        panelForm.cbxCidade.removeAllItems();
         for (Municipio m: lista){
             panelForm.cbxCidade.addItem(m);
         }
@@ -348,51 +355,59 @@ public class EstudanteDlg extends FormPadrão {
             panelForm.lblMsgLogradouro.setText(null);
             panelForm.txtLogradouro.putClientProperty("JComponent.outline", null);
         }
-
-        this.student.setNome(nome);
-        this.student.setCpf(cpf);
-        this.student.setDtaNascimento(new Util().formatDateToUs(nascimento));
-        this.student.setSexo(String.valueOf(panelForm.cbxSexo.getModel().getSelectedItem()));
-        this.student.setNomeMae(nomeMae);
-        this.student.setNomePai(panelForm.txtNomePai.getText());
-        this.student.setNacionalidade(panelForm.txtNacionalidade.getText());
-        this.student.setNaturalidade_uf(String.valueOf(panelForm.cbxEstadoNaturalidade.getModel().getSelectedItem()));
-        this.student.setNaturalidade(String.valueOf(panelForm.cbxNaturalidade.getModel().getSelectedItem()));
-        this.student.setResponsavelAcademico(panelForm.txtRespAcademico.getText());
-        this.student.setResponsavelFinanceiro(panelForm.txtRespFinanceiro.getText());
+        Students student = new Students();
+        student.setNome(nome);
+        student.setCpf(cpf);
+        student.setDtaNascimento(new Util().formatDateToUs(nascimento));
+        student.setSexo(String.valueOf(panelForm.cbxSexo.getModel().getSelectedItem()));
+        student.setNomeMae(nomeMae);
+        student.setNomePai(panelForm.txtNomePai.getText());
+        student.setNacionalidade(panelForm.txtNacionalidade.getText());
+        student.setNaturalidade_uf(String.valueOf(panelForm.cbxEstadoNaturalidade.getModel().getSelectedItem()));
+        student.setNaturalidade(String.valueOf(panelForm.cbxNaturalidade.getModel().getSelectedItem()));
+        student.setResponsavelAcademico(panelForm.txtRespAcademico.getText());
+        student.setResponsavelFinanceiro(panelForm.txtRespFinanceiro.getText());
         if (panelForm.ckbStatus.isSelected()){
-            this.student.setStatus(true);
+            student.setStatus(true);
         }
 
-        this.student.setLogradouro(logradouro);
-        this.student.setNumero(panelForm.txtNumero.getText());
-        this.student.setTelefone(panelForm.txtTelefone.getText());
-        this.student.setComplemento(panelForm.txtComplemento.getText());
-        this.student.setBairro(panelForm.txtBairro.getText());
-        this.student.setEstado(String.valueOf(panelForm.cbxEsdado.getModel().getSelectedItem()));
-        this.student.setCidade(String.valueOf(panelForm.cbxCidade.getModel().getSelectedItem()));
-        this.student.setCep(panelForm.txtCep.getText());
+        student.setLogradouro(logradouro);
+        student.setNumero(panelForm.txtNumero.getText());
+        student.setTelefone(panelForm.txtTelefone.getText());
+        student.setComplemento(panelForm.txtComplemento.getText());
+        student.setBairro(panelForm.txtBairro.getText());
+        student.setEstado(String.valueOf(panelForm.cbxEsdado.getModel().getSelectedItem()));
+        student.setCidade(String.valueOf(panelForm.cbxCidade.getModel().getSelectedItem()));
+        student.setCep(panelForm.txtCep.getText());
 
-        if (this.student.getId() != null){
+        if (this.idRow != null){
             try {
-                studentDAO.updateStudent(this.student);
+                student.setId(this.idRow);
+                studentDAO.updateStudent(student);
                 JOptionPane.showMessageDialog(this, "Atualizado com sucesso. ", "Sucesso.", JOptionPane.INFORMATION_MESSAGE);
                 this.habilitarBotoes(true);
                 this.habilitarCampos(false);
                 this.limparCampos();
                 preencherTabela("");
-
+                panelTable.tabela.clearSelection();
+                if (idRow != null){
+                    idRow = null;
+                }
             }catch (Exception e){
                 JOptionPane.showMessageDialog(this, "Error " + e.getMessage());
             }
         }else{
             try {
-                studentDAO.addStudent(this.student);
+                studentDAO.addStudent(student);
                 JOptionPane.showMessageDialog(this, "Salvo com sucesso. ", "Sucesso.", JOptionPane.INFORMATION_MESSAGE);
                 this.habilitarBotoes(true);
                 this.habilitarCampos(false);
                 this.limparCampos();
                 preencherTabela("");
+                panelTable.tabela.clearSelection();
+                if (idRow != null){
+                    idRow = null;
+                }
             }catch (Exception e){
                 JOptionPane.showMessageDialog(this, "Error " + e.getMessage());
             }
@@ -401,19 +416,28 @@ public class EstudanteDlg extends FormPadrão {
 
     @Override
     public void deleteDoBD() {
-        if (this.student.getId() == null) {
+        if (this.idRow == null) {
             JOptionPane.showMessageDialog(null, "Por favor, selecione um registro na tabela primeiro.");
         } else {
             if (JOptionPane.showConfirmDialog(null, "Confirma a exclusão?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-                studentDAO.deleteStudent(this.student);
+                Students student = new Students();
+                student.setId(this.idRow);
+                studentDAO.deleteStudent(student);
                 limparCampos();
-                habilitarBotoes(false);
-                habilitarCampos(true);
-                this.student.setId(null);
+                habilitarBotoes(true);
+                habilitarCampos(false);
+                this.preencherTabela("");
+                panelTable.tabela.clearSelection();
+                if (idRow != null){
+                    idRow = null;
+                }
             } else {
                 limparCampos();
                 habilitarBotoes(true);
                 habilitarCampos(false);
+                if (idRow != null){
+                    idRow = null;
+                }
             }
         }
     }
