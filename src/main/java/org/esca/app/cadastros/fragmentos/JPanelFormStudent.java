@@ -17,11 +17,11 @@ public class JPanelFormStudent extends JPanel {
     private Font fontError = new Font("Roboto Black", Font.ITALIC, 10);
     public javax.swing.JLabel lblMsgNome, lblMsgNomeMae, lblMsg, lblMsgLogradouro;
     public JPanelFormStudent() {
-
         criaComponents();
     }
 
     private void criaComponents(){
+        System.out.println("Formulario std");
         JPanel panel = new JPanel();
 
         FormLayout layout = new FormLayout(

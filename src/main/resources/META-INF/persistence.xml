@@ -4,10 +4,11 @@
 
         <class>org.esca.app.auth.dominio.Roles</class>
         <class>org.esca.app.auth.dominio.Usuarios</class>
-        <class>org.esca.app.cadastros.dominio.Address</class>
         <class>org.esca.app.cadastros.dominio.Students</class>
         <class>org.esca.app.cadastros.dominio.Municipio</class>
         <class>org.esca.app.cadastros.dominio.Estado</class>
+        <class>org.esca.app.cadastros.dominio.Banco</class>
+        <class>org.esca.app.cadastros.dominio.Teachers</class>
         <properties>
 <!--            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/esca?useSSL=false"/>-->
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/finance"/>
@@ -23,7 +24,7 @@
 <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- create / create-drop / update -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- create / drop-and-create / update -->
 
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>

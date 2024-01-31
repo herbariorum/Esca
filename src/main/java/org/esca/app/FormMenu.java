@@ -5,6 +5,8 @@ import org.esca.app.auth.dominio.Usuarios;
 
 
 import org.esca.app.cadastros.estudantes.EstudanteDlg;
+import org.esca.app.cadastros.fragmentos.JPanelFormStudent;
+import org.esca.app.cadastros.professores.ProfessorDlg;
 import org.esca.app.util.StatusBar;
 
 import javax.swing.*;
@@ -63,7 +65,12 @@ public class FormMenu extends JFrame {
         cadastroEstudantesAction.addActionListener((ActionEvent evt)->{
             mnuCadastrarEstudantesActionPerformed(evt);
         });
+        JMenuItem cadastroProfessorAction = new JMenuItem("Manutenção de Professores");
+        cadastroProfessorAction.addActionListener((ActionEvent evt) -> {
+            mnuCadastrarProfessoresActionPerformed(evt);
+        });
         cadastroMenu.add(cadastroEstudantesAction);
+        cadastroMenu.add(cadastroProfessorAction);
 
         /*
         * MENU CONFIGURAÇÕES
@@ -126,7 +133,9 @@ public class FormMenu extends JFrame {
         new EstudanteDlg(getInstance(), true, "Manutenção de Estudantes").start();
     }
 
-
+    private void mnuCadastrarProfessoresActionPerformed(ActionEvent evt){
+        new ProfessorDlg(getInstance(), true, "Manutenção de Professores").start();
+    }
 
     private void sairDoApp(){
         int resposta = JOptionPane.showConfirmDialog(null, "Você deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

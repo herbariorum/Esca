@@ -1,6 +1,8 @@
 package org.esca.app.cadastros.modelos;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import lombok.Getter;
+import lombok.Setter;
 import org.esca.app.cadastros.fragmentos.JPanelButton;
 import org.esca.app.cadastros.fragmentos.JPanelFormStudent;
 import org.esca.app.cadastros.fragmentos.JPanelTable;
@@ -9,6 +11,7 @@ import org.esca.app.cadastros.fragmentos.JPanelTitle;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Objects;
 
 abstract public class FormPadraoTwo extends javax.swing.JDialog{
 
@@ -24,15 +27,16 @@ abstract public class FormPadraoTwo extends javax.swing.JDialog{
     public JPanelTable panelTable;
     public JPanelButton panelButton;
     public JTabbedPane abas ;
-    public JPanelFormStudent panelForm;
+
+    public JPanel formulario;
     private String titulo;
+
     public FormPadraoTwo(javax.swing.JFrame owner, boolean modal, String titulo){
         super(owner, modal);
         Container content = getContentPane();
         this.titulo = titulo;
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        this.panelForm = new JPanelFormStudent();
         this.panelTable = new JPanelTable();
 
         content.setLayout(new GridBagLayout());
@@ -68,10 +72,13 @@ abstract public class FormPadraoTwo extends javax.swing.JDialog{
         setLocationRelativeTo(null);
     }
 
+
     private JTabbedPane Abas(){
         this.abas = new JTabbedPane(JTabbedPane.TOP);
         this.abas.setBorder(BorderFactory.createEmptyBorder(5, 10, 15 , 10));
-        this.abas.addTab("Formulário", this.panelForm);
+
+        this.formulario = new JPanel();
+        this.abas.addTab("Formulário", this.formulario);
         this.abas.addTab("Listagem" ,this.panelTable);
         this.abas.setSelectedIndex(1);
 
